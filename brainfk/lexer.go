@@ -29,10 +29,38 @@ const (
 	READ_STDIN
 	JUMP_IF_DATA_ZERO
 	JUMP_IF_DATA_NOT_ZERO
-	LOOP_SET_TO_ZERO
-	LOOP_MOVE_PTR
-	LOOP_MOVE_DATA
+	LOOP_SET_TO_ZERO // 优化使用
+	LOOP_MOVE_PTR    // 优化使用
+	LOOP_MOVE_DATA   // 优化使用
 )
+
+func (o OpType) String() string {
+	switch o {
+	case INC_PTR:
+		return ">"
+	case DEC_PTR:
+		return "<"
+	case INC_DATA:
+		return "+"
+	case DEC_DATA:
+		return "-"
+	case WRITE_STDOUT:
+		return "."
+	case READ_STDIN:
+		return ","
+	case JUMP_IF_DATA_ZERO:
+		return "["
+	case JUMP_IF_DATA_NOT_ZERO:
+		return "]"
+	case LOOP_SET_TO_ZERO:
+		return "z"
+	case LOOP_MOVE_PTR:
+		return "p"
+	case LOOP_MOVE_DATA:
+		return "d"
+	}
+	return "?"
+}
 
 var OpMap = map[string]OpType{
 	">": INC_PTR,

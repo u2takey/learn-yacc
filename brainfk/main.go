@@ -2,6 +2,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"log"
 	"os"
 )
@@ -12,12 +13,23 @@ func main() {
 		return
 	}
 
-	codes, err := Parse([]byte(os.Args[1]))
+	var input []byte
+	var err error
+	if os.Args[1] == "-f" {
+		log.Println("read code from file")
+		input, err = ioutil.ReadFile(os.Args[2])
+		if err != nil {
+			log.Panic(err)
+		}
+	} else {
+		input = []byte(os.Args[1])
+	}
+
+	codes, err := Parse(input)
 	if err != nil {
 		log.Println("parse error", err)
 		return
 	}
-	//log.Println(codes)
 
 	newEnv(codes).Run()
 
